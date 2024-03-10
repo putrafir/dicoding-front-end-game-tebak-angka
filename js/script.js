@@ -142,3 +142,21 @@ function updateScore() {
   localStorage.setItem(localTotalVictoryKey, previousTotalVictoryAmount + 1);
   localTotalVictoryField.innerText = localStorage.getItem(localTotalVictoryKey);
 }
+
+window.addEventListener("beforeunload", function () {
+  sessionUserAnswerField.innerText = "";
+  sessionUserWrongAnswerField.innerText = "";
+  sessionStorage.setItem(sessionUserAttemptsKey, 0);
+  sessionUserAttemptsField.innerText = sessionStorage.getItem(
+    sessionUserAttemptsKey
+  );
+});
+
+destroyDataButton.addEventListener("click", function () {
+  sessionStorage.removeItem(sessionAnswerKey);
+  sessionStorage.removeItem(sessionUserAttemptsKey);
+  sessionStorage.removeItem(sessionUserIsPlayingKey);
+  localStorage.removeItem(localTotalVictoryKey);
+  localStorage.removeItem(localMaximumAttemptsKey);
+  alert("mohon merefresh halaman ini kembali");
+});
