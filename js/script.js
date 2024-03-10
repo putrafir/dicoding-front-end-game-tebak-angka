@@ -67,4 +67,13 @@ window.addEventListener("load", function () {
   } else {
     alert("browser yang anda gunakan tidak mendukung web storage");
   }
+
+  // inisialisasi semua nilai field pada dokumen yang menggunakan nilai dari web storage
+  sessionUserAttemptsField.innerText = sessionStorage.getItem(
+    sessionUserAttemptsKey
+  );
+  localTotalVictoryField.innerText = localStorage.getItem(localTotalVictoryKey);
+  localMaximumAttemptField.innerText = localStorage.getItem(
+    localMaximumAttemptsKey
+  );
 });
