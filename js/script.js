@@ -77,3 +77,68 @@ window.addEventListener("load", function () {
     localMaximumAttemptsKey
   );
 });
+
+playButton.addEventListener("click", function () {
+  sessionStorage.setItem(sessionAnswerKey, getAnswer());
+  sessionStorage.setItem(sessionUserIsPlayingKey, true);
+  beforeGameDisplay.setAttribute("hidden", true);
+  duringGameDisplay.removeAttribute("hidden");
+});
+
+answerButton1.addEventListener("click", function () {
+  sessionUserAnswerField.innerText += "1";
+  if (sessionUserAnswerField.innerText.length == 3) {
+    checkAnswer(sessionUserAnswerField.innerText);
+  }
+});
+
+answerButton2.addEventListener("click", function () {
+  sessionUserAnswerField.innerText += "2";
+  if (sessionUserAnswerField.innerText.length == 3) {
+    checkAnswer(sessionUserAnswerField.innerText);
+  }
+});
+answerButton3.addEventListener("click", function () {
+  sessionUserAnswerField.innerText += "3";
+  if (sessionUserAnswerField.innerText.length == 3) {
+    checkAnswer(sessionUserAnswerField.innerText);
+  }
+});
+
+function checkAnswer(userGuess) {
+  const answer = sessionStorage.getItem(sessionAnswerKey);
+  if (userGuess == answer) {
+    duringGameDisplay.setAttribute("hidden", true);
+    afterGameDisplay.removeAttribute("hidden");
+    sessionTrueAnswerField.innerText = answer;
+    updateScore();
+  } else {
+    const previousAttempAmount = parseInt(
+      sessionStorage.getItem(sessionUserAttemptsKey)
+    );
+    sessionStorage.setItem(sessionUserAttemptsKey, previousAttempAmount + 1);
+    sessionUserAttemptsField.innerText = sessionStorage.getItem(
+      sessionUserAttemptsKey
+    );
+    sessionUserAnswerField.innerText = "";
+    sessionUserWrongAnswerField.innerText = userGuess;
+  }
+}
+
+function updateScore() {
+  const sessionAttemptsValue = parseInt(
+    sessionStorage.getItem(sessionUserAttemptsKey)
+  );
+  const localAttempsValue = parseInt(
+    localStorage.getItem(localMaximumAttemptsKey)
+  );
+  if (sessionAttemptsValue > localAttempsValue) {
+    localStorage.setItem(localMaximumAttemptsKey, sessionAttemptsValue);
+    localMaximumAttemptField.innerText = sessionAttemptsValue;
+  }
+  const previousTotalVictoryAmount = parseInt(
+    localStorage.getItem(localTotalVictoryKey)
+  );
+  localStorage.setItem(localTotalVictoryKey, previousTotalVictoryAmount + 1);
+  localTotalVictoryField.innerText = localStorage.getItem(localTotalVictoryKey);
+}
